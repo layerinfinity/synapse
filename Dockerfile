@@ -184,8 +184,12 @@ RUN \
 COPY --from=builder /install /usr/local
 COPY ./docker/start.py /start.py
 COPY ./docker/conf /conf
-COPY ./config/homeserver.yaml /data/homeserver.yaml
-COPY ./config/log.config /data/log.config
+
+WORKDIR /data
+COPY ./config/homeserver.yaml .
+COPY ./config/log.config .
+COPY ./config/signing.key .
+RUN chown -R 991:991 .
 
 EXPOSE 8008/tcp 8009/tcp 8448/tcp
 
